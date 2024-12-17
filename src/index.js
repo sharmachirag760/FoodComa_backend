@@ -4,12 +4,14 @@ const connectDB = require('./config/dbConfig')
 const user = require('./schema/userSchema');
 const { cartRouter } = require('./routes/cartRoute');
 const userRouter = require('./routes/userRoute');
+const authRouter = require('./routes/authRoute');
 const app = express();
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended: true}));
 app.use('/users',userRouter);
 app.use('/carts',cartRouter);
+app.use('/auth',authRouter);
 app.post('/ping',(req,res)=>{
     console.log(req.body)
     return res.json({message: 'pong'})
