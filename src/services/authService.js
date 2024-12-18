@@ -3,10 +3,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET, JWT_EXPIRY } = require("../config/ServerConfig");
 async function loginUser(authDetails){
+    
     const email = authDetails.email;
     const plainPassword = authDetails.password;
-    
     const user = await findUser({email});
+   
     if(!user){
         throw{
             message : "no user found with the given email",
