@@ -16,6 +16,7 @@ async function createUser(userDetails){
         console.log(error)
     }
 }
+
 module.exports = {
     findUser,
     createUser

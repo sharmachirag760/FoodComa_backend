@@ -1,5 +1,3 @@
-const UserService = require('../services/userService');
-const userRepository = require('../repositories/userRepository');
 const registerUser = require('../services/userService');
 async function createUser(req,res){
     console.log("Create user controller called..");
