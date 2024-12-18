@@ -1,4 +1,6 @@
-const { CreateProduct } = require("../services/productServices")
+const { getProductById, deleteProductById } = require("../repositories/productRespository");
+const { CreateProduct } = require("../services/productServices");
+const AppError = require("../utils/appError");
 async function addProduct(req,res){
     try {
         const product = await CreateProduct({
@@ -16,16 +18,87 @@ async function addProduct(req,res){
             data : product
         }) 
     } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statuscode).json({
+                success : false,
+                message : error.message,
+                data : {},
+                error : error
+            })
+        }
         console.log(error);
-        return res.status(error.statuscode).json({
+        return res.status(500).json({
             success : false,
-            message : error.reason,
+            message : "something went wrong",
             data : {},
             error : error
         })
+       
     }
    
 }
+async function getProduct(req,res){
+
+    try {
+        const response = await getProductById(req.params.id);
+        return res.status(200).json({
+            success : true,
+            message : "successfully fetched the product",
+            error : {},
+            data : response 
+        })
+    } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statuscode).json({
+                success : false,
+                message : error.message,
+                data : {},
+                error : error
+            })
+        }
+        console.log(error);
+        return res.status(500).json({
+            success : false,
+            message : "something went wrong",
+            data : {},
+            error : error
+        })
+        
+    }
+}
+
+
+async function deleteProduct(req,res){
+
+    try {
+        const response = await deleteProductById(req.params.id);
+        return res.status(200).json({
+            success : true,
+            message : "successfully deleted the product",
+            error : {},
+            data : response 
+        })
+    } catch (error) {
+        if(error instanceof AppError){
+            return res.status(error.statuscode).json({
+                success : false,
+                message : error.message,
+                data : {},
+                error : error
+            })
+        }
+        console.log(error);
+        return res.status(500).json({
+            success : false,
+            message : "something went wrong",
+            data : {},
+            error : error
+        })
+        
+    }
+}
 module.exports = {
-    addProduct
+    addProduct,
+    getProduct,
+    deleteProduct
 }

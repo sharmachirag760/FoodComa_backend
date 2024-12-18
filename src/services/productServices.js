@@ -2,6 +2,8 @@ const cloudinary = require("../config/cloudinaryConfig");
 const productRespository = require('../repositories/productRespository');
 
 const fs = require('fs/promises');
+const InternalServerError = require("../utils/internalServerError");
+const notFoundError = require("../utils/notFoundError");
 async function CreateProduct(productDetails){
    const imagePath = productDetails.imagePath;
    if(imagePath){
@@ -11,7 +13,7 @@ async function CreateProduct(productDetails){
         await fs.unlink(imagePath )
     } catch (error) {
         console.log(error)
-        throw{ reason : "not able to create product",statuscode : 500 }
+        throw new InternalServerError()
     }
    
    }
@@ -24,4 +26,23 @@ async function CreateProduct(productDetails){
    }
    return product;
 }
-module.exports = {CreateProduct};
+
+async function getProductById(productId){
+    const response = await productRespository.getProductById(productId);
+    if(!response){
+        throw new notFoundError('product');
+    }
+    return response;
+}
+async function deleteProductById(productId){
+    const response = await productRespository.deleteProductById(productId);
+    if(!response){
+        throw new notFoundError('product')
+    }
+    return response;
+}
+module.exports = {
+    CreateProduct,
+    deleteProductById,
+    getProductById
+};
