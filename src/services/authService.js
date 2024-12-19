@@ -21,7 +21,8 @@ async function loginUser(authDetails){
             statuscode : 401
         }
     }
-    const token = jwt.sign({emai : user.email,id : user._id},JWT_SECRET, {expiresIn : JWT_EXPIRY})
+    const userRole = user.role ?user.role : "USER"
+    const token = jwt.sign({emai : user.email,id : user._id,role : userRole },JWT_SECRET, {expiresIn : JWT_EXPIRY})
     return token;
 }
 module.exports = {

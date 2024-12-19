@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/ServerConfig');
+const UnauthorizedError = require('../utils/unauthorizedError');
 async function isLoggedIn(req,res,next){
     const token = req.cookies["authToken"];
     if(!token){
@@ -10,21 +11,47 @@ async function isLoggedIn(req,res,next){
             message : "No Auth token provided"
         })
     }
-    const decoded = jwt.verify(token,JWT_SECRET)
-    if(!decoded){
+    try {
+        
+        const decoded = jwt.verify(token,JWT_SECRET)
+        if(!decoded){
+            throw new UnauthorizedError();
+        }
+        req.user={
+            email :decoded.email,
+            id : decoded.id,
+            role :decoded.role
+        }
+        next();
+    } catch (error) {
         return res.status(401).json({
             success : false,
             data : {},
-            error : "not authenticated",
+            error : error,
             message : "Invalid token provided"
         })
     }
-    req.user={
-        email :decoded.email,
-        id : decoded.id
+}
+function isAdmin(req , res, next) {
+    const loggedInUser = req.user;
+    if(loggedInUser.role === "ADMIN"){
+         next();
     }
-    next();
+    else{
+        return res.status(401).json({
+            success : false,
+            data : {},
+            message : "You are not authorized for this action",
+            error : {
+                statuscode : 401,
+                reason : "Unauthorized User for this action"
+            }
+    
+        })
+    }
+   
 }
 module.exports = {
-    isLoggedIn
+    isLoggedIn,
+    isAdmin
 }
