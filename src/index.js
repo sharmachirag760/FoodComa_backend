@@ -11,6 +11,7 @@ const { isLoggedIn } = require('./validation/authValidator');
 // const cloudinary = require('./config/cloudinaryConfig')
 // const fs = require('fs/promises');
 const productRouter = require('./routes/productRoute');
+const { orderRouter } = require('./routes/orderRoute');
 const app = express();
 app.use(express.json());
 app.use(express.text());
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use('/users',userRouter);
 app.use('/products',productRouter);
 app.use('/carts',cartRouter);
+app.use('/orders',orderRouter)
 app.use('/auth',authRouter);
 // app.post('/photo',uploader.single('incomingFile'),async (req,res)=>{
 //     console.log(req.file)
