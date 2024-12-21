@@ -1,12 +1,10 @@
 const express = require('express');
 const server = require('./config/ServerConfig')
 const connectDB = require('./config/dbConfig')
-const user = require('./schema/userSchema');
 const { cartRouter } = require('./routes/cartRoute');
 const userRouter = require('./routes/userRoute');
 const authRouter = require('./routes/authRoute');
 const cookieParser = require('cookie-parser');
-const { isLoggedIn } = require('./validation/authValidator');
 // const { uploader } = require('./middlewares/multerMidddleware');
 // const cloudinary = require('./config/cloudinaryConfig')
 // const fs = require('fs/promises');
@@ -31,7 +29,7 @@ app.use('/auth',authRouter);
 //         message : "ok"
 //      })
 // })
-app.get('/ping',isLoggedIn,(req,res)=>{
+app.get('/ping',(req,res)=>{
     console.log(req.body)
     console.log(req.cookies);
     return res.json({message: 'pong'})
