@@ -10,7 +10,12 @@ const cookieParser = require('cookie-parser');
 // const fs = require('fs/promises');
 const productRouter = require('./routes/productRoute');
 const { orderRouter } = require('./routes/orderRoute');
+const cors = require('cors');
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:5173', // allow to server to accept request from different origin
+    credentials: true, // allow session cookie from browser to pass through
+}));
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended: true}));
