@@ -35,9 +35,9 @@ async function getProductById(productId){
     return response;
 }
 async function getAllProductsData() {
-    const response = await ProductRespository.getAllProducts();
+    const response = await productRespository.getAllProducts();
     if(!response) {
-        throw new NotFoundError('Product');
+        throw new notFoundError('Product');
     }
     return response;
 }
