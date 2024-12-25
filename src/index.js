@@ -11,9 +11,10 @@ const cookieParser = require('cookie-parser');
 const productRouter = require('./routes/productRoute');
 const { orderRouter } = require('./routes/orderRoute');
 const cors = require('cors');
+const ServerConfig = require('./config/ServerConfig');
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173', // allow to server to accept request from different origin
+    origin: ServerConfig.FRONTEND_URL, // allow to server to accept request from different origin ServerConfig.FRONTEND_URL,
     credentials: true, // allow session cookie from browser to pass through
 }));
 app.use(express.json());
