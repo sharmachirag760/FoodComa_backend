@@ -13,7 +13,7 @@ const { orderRouter } = require('./routes/orderRoute');
 const cors = require('cors');
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173", // allow to server to accept request from different origin 
+    origin: process.env.FRONTEND_URL, // allow to server to accept request from different origin 
     credentials: true, // allow session cookie from browser to pass through'
 }));
 app.use(express.json());
