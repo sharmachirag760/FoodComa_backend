@@ -2,8 +2,12 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET, COOKIE_SECURE, FRONTEND_URL } = require('../config/ServerConfig');
 const UnauthorizedError = require('../utils/unauthorizedError');
 async function isLoggedIn(req,res,next){
-    console.log("Inside isLoggedIn", req.cookies);
-    const token = req.cookies["authToken"];
+    console.log("Inside isLoggedIn");
+    const token =
+  req.cookies.authToken ||
+  (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")
+    ? req.headers.authorization.split(" ")[1]
+    : null);
     console.log(token);
     if(!token){
         return res.status(401).json({

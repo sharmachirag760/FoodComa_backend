@@ -1,38 +1,12 @@
-const cloudinary = require("../config/cloudinaryConfig");
 const productRespository = require('../repositories/productRespository');
-
 const fs = require('fs/promises');
-const InternalServerError = require("../utils/internalServerError");
 const notFoundError = require("../utils/notFoundError");
 async function CreateProduct(productDetails){
-   const imagePath = productDetails.imagePath;
-   if(imagePath){
-    try {
-        const cloudinaryResponse = await cloudinary.uploader.upload(imagePath);
-        var productImage = cloudinaryResponse.secure_url; 
-        await fs.unlink(imagePath )
-    } catch (error) {
-        console.log(error)
-        throw new InternalServerError()
-    }
-   
-   }
-   const product = await productRespository.createProduct({
-         ...productDetails,
-         productImage : productImage
-   })
+   const product = await productRespository.createProduct(productDetails)
    if(!product){
     throw{ reason : "not able to create product",statuscode : 500 }
    }
    return product;
-}
-
-async function getProductById(productId){
-    const response = await productRespository.getProductById(productId);
-    if(!response){
-        throw new notFoundError('product');
-    }
-    return response;
 }
 async function getAllProductsData() {
     const response = await productRespository.getAllProducts();
@@ -41,16 +15,18 @@ async function getAllProductsData() {
     }
     return response;
 }
-async function deleteProductById(productId){
-    const response = await productRespository.deleteProductById(productId);
-    if(!response){
-        throw new notFoundError('product')
+
+
+async function UpdateProductQuantity(productId, quantity) {
+    const updatedProduct = await productRespository.updateProductQuantity(productId, quantity);
+    if (!updatedProduct) {
+        throw { reason: "Product not found or quantity update failed", statuscode: 404 };
     }
-    return response;
+    return updatedProduct;
 }
+
 module.exports = {
     CreateProduct,
-    deleteProductById,
-    getProductById,
-    getAllProductsData
+    getAllProductsData,
+    UpdateProductQuantity
 };

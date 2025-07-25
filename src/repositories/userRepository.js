@@ -13,7 +13,7 @@ async function findUser(parameters){
 async function createUser(userDetails){
     try {
         const response = await User.create(userDetails);
-    return response
+        return response;
     } catch (error) {
         if(error.name === 'ValidationsError'){
             const errorMessageList = Object.keys(error.errors).map((property) => {

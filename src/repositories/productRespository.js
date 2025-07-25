@@ -17,15 +17,6 @@ async function createProduct(productDetails){
         throw new InternalServerError();
     }
 }
-async function getProductById(productId){
-    try {
-        const product = await Product.findById(productId) ;
-        return product;
-    } catch (error) {
-        console.log(error)
-        throw new InternalServerError();
-    }
-}
 async function getAllProducts() {
     try {
         const products = await Product.find({});
@@ -35,19 +26,17 @@ async function getAllProducts() {
         throw new InternalServerError();
     }
 }
-async function deleteProductById(productId){
-    try { 
-        const response = await Product.findByIdAndDelete(productId) ;
-        return response;
-        
-    } catch (error) {
-        console.log(error)
-        throw new InternalServerError();
-    }
+async function updateProductQuantity(id, quantity) {
+    return await Product.findByIdAndUpdate(
+        id,
+        { quantity: quantity },
+        { new: true, runValidators: true }
+    );
 }
+
+
 module.exports = {
     createProduct,
-    getProductById,
-    deleteProductById,
-    getAllProducts
+    getAllProducts,
+    updateProductQuantity
 }

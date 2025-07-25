@@ -22,8 +22,12 @@ async function loginUser(authDetails){
         }
     }
     const userRole = user.role ?user.role : "USER"
-    const token = jwt.sign({emai : user.email,id : user._id,role : userRole },JWT_SECRET, {expiresIn : JWT_EXPIRY})
-    return {token, userRole, userData: {
+    const token = jwt.sign({email : user.email,id : user._id,role : userRole },JWT_SECRET, {expiresIn : JWT_EXPIRY})
+    // console.log(token);
+    return {
+        token, 
+        userRole, 
+        userData: {
         email: user.email,
         firstName: user.firstName,
     }};

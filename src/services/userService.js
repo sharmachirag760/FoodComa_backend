@@ -1,35 +1,36 @@
-const { createcart } = require("../repositories/cartRepository");
 const { findUser, createUser } = require("../repositories/userRepository");
 
-async function registerUser(userDetails){
+async function registerUser(userDetails) {
     const user = await findUser({
-        email : userDetails.email,
-        mobileNumber : userDetails.mobileNumber
-    })
-
-    if(user){
-        throw{
-            reason : 'User with given email and mobile number already exist',
-            statuscode : 400
-        }
+      $or: [
+        { email: userDetails.email },
+        { mobileNumber: userDetails.mobileNumber }
+      ]
+    });
+  
+    if (user) {
+      throw {
+        message: "User with given email or mobile number already exists",
+        statuscode: 400
+      };
     }
+  
     const newUser = await createUser({
-        email : userDetails.email,
-        password : userDetails.password,
-        firstName : userDetails.firstName,
-        lastName : userDetails.lastName,
-        mobileNumber : userDetails.mobileNumber
-    })
-    if(!newUser){
-        throw{
-            reason : "Something went wrong ",
-            statuscode : 500
-        }
+      email: userDetails.email,
+      password: userDetails.password,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      role: userDetails.role,
+      mobileNumber: userDetails.mobileNumber
+    });
+  
+    if (!newUser) {
+      throw {
+        message: "Something went wrong",
+        statuscode: 500
+      };
     }
-
-    await createcart(newUser._id);
-
+  
     return newUser;
-
-}
+  }
 module.exports = registerUser

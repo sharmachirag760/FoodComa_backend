@@ -4,15 +4,26 @@ const productSchema = new mongoose.Schema({
         type : String,
         required : [true,"product name is required"],
         trim : true,
-        minlength : [5,"product should be atleast 5 character"]
+        minlength : [3,"product should be atleast 3 character"]
      },
+     type : {
+      type : String,
+      required : [true,"product type is required"],
+      trim : true
+     },
+     sku : {
+      type : String,
+      trim : true
+     },
+     productImageUrl : {
+      type : String,
+      required : true
+   },
      description :{
         type : String,
         minlength : [5,"product should be atleast 5 character"]
      },
-     productImage : {
-        type : String
-     },
+     
      quantity:{
          type : Number,
          required : true,
@@ -21,16 +32,6 @@ const productSchema = new mongoose.Schema({
      price :{
         type : Number,
         required : [ true,"Product price is required"]
-     },
-     category :{
-        type : String,
-        enum : ["veg","non-veg", "drinks","sides"],
-        default : "veg"
-     },
-     inStock : {
-        type : Boolean,
-        required : [true,"instock status is required"],
-        default : true
      }
 },{
 timestamps : true
