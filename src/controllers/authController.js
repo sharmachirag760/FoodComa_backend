@@ -8,7 +8,7 @@ async function logout(req,res){
         secure: COOKIE_SECURE,
         sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        // domain: FRONTEND_URL
+        domain: FRONTEND_URL
     });
     return res.status(200).json({
         success : true,
@@ -26,7 +26,7 @@ async function login(req,res){
         httpOnly : true,
         secure: COOKIE_SECURE,
         sameSite: "lax",
-        // domain: FRONTEND_URL,
+        domain: FRONTEND_URL,
         maxAge : 7*24*60*60*1000
     })
     return res.status(200).json({
