@@ -16,6 +16,7 @@ async function registerUser(userDetails) {
     }
   
     const newUser = await createUser({
+<<<<<<< HEAD
       email: userDetails.email,
       password: userDetails.password,
       firstName: userDetails.firstName,
@@ -29,6 +30,20 @@ async function registerUser(userDetails) {
         message: "Something went wrong",
         statuscode: 500
       };
+=======
+        email : userDetails.email,
+        password : userDetails.password,
+        firstName : userDetails.firstName,
+        lastName : userDetails.lastName,
+        role : userDetails.role,
+        mobileNumber : userDetails.mobileNumber
+    })
+    if(!newUser){
+        throw{
+            reason : "Something went wrong ",
+            statuscode : 500
+        }
+>>>>>>> ec6c44e (updates)
     }
   
     return newUser;

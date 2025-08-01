@@ -8,7 +8,12 @@ async function addProduct(req,res){
             sku : req.body.sku,
             productImageUrl : req.body.productImageUrl,
             description : req.body.description,
+<<<<<<< HEAD
             quantity :  req.body.quantity,
+=======
+            quantity : req.body.quantity,
+            imagePath : req.file.path,
+>>>>>>> ec6c44e (updates)
             price : req.body.price,
         })
         return res.status(201).json({

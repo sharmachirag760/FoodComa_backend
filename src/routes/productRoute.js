@@ -8,6 +8,12 @@ productRouter.post(
     isAdmin,
     addProduct 
  );
+<<<<<<< HEAD
+=======
+productRouter.get('/:id',getProduct); 
+productRouter.delete('/:id', isLoggedIn,
+    isAdmin,deleteProduct);
+>>>>>>> ec6c44e (updates)
 productRouter.get('/', getProducts);
 productRouter.put('/:id/quantity', isLoggedIn, isAdmin, updateProductQuantity);
 module.exports = productRouter; 
